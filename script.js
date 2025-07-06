@@ -31,8 +31,8 @@ class UpsideDownTetris {
             clearedLineCount: 0,
             
             // Animation timing constants
-            DURATION: 6000, // Total animation duration in ms
-            GLOW_DURATION: 3000, // How long rows glow before disappearing
+            DURATION: 1000, // Total animation duration in ms
+            GLOW_DURATION: 500, // How long rows glow before disappearing
             GLOW_PHASE_RATIO: 0.5 // Glow takes first half of animation
         };
         
