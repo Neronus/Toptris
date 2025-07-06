@@ -157,10 +157,10 @@ class UpsideDownTetris {
                 this.movePiece(1, 0);
                 break;
             case 'ArrowDown':
-                this.movePiece(0, -1); // Reversed: down key moves up
+                this.rotatePiece();
                 break;
             case 'ArrowUp':
-                this.rotatePiece();
+                this.movePiece(0, -1); // Up key moves up (toward top of screen)
                 break;
             case 'Space':
                 this.hardDrop();
