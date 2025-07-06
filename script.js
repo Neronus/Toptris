@@ -94,6 +94,7 @@ class UpsideDownTetris {
         
         this.initializeGame();
         this.bindEvents();
+        this.setupMobileControls();
     }
     
     initializeGame() {
@@ -119,6 +120,83 @@ class UpsideDownTetris {
         
         // Debug mode
         this.debugMode = false;
+    }
+    
+    setupMobileControls() {
+        // Touch control state
+        this.touch = {
+            startX: 0,
+            startY: 0,
+            startTime: 0,
+            isDown: false,
+            minSwipeDistance: 30,
+            maxTapTime: 200,
+            touchCount: 0
+        };
+        
+        // Add touch event listeners to the canvas
+        this.canvas.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: false });
+        this.canvas.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: false });
+        
+        // Prevent default touch behaviors on the canvas
+        this.canvas.addEventListener('touchmove', (e) => e.preventDefault());
+    }
+    
+    handleTouchStart(e) {
+        if (!this.gameRunning || this.gamePaused) return;
+        
+        const touch = e.touches[0];
+        this.touch.startX = touch.clientX;
+        this.touch.startY = touch.clientY;
+        this.touch.startTime = Date.now();
+        this.touch.isDown = true;
+        this.touch.touchCount = e.touches.length;
+    }
+    
+    handleTouchEnd(e) {
+        if (!this.gameRunning || this.gamePaused || !this.touch.isDown) return;
+        
+        const touch = e.changedTouches[0];
+        const endX = touch.clientX;
+        const endY = touch.clientY;
+        const endTime = Date.now();
+        
+        const deltaX = endX - this.touch.startX;
+        const deltaY = endY - this.touch.startY;
+        const deltaTime = endTime - this.touch.startTime;
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        
+        // Two-finger tap for hard drop
+        if (this.touch.touchCount >= 2) {
+            this.hardDrop();
+            this.touch.isDown = false;
+            return;
+        }
+        
+        // Check if it's a swipe (moved far enough)
+        if (distance >= this.touch.minSwipeDistance) {
+            // Determine primary direction
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                // Horizontal swipe
+                if (deltaX > 0) {
+                    this.movePiece(1, 0); // Swipe right
+                } else {
+                    this.movePiece(-1, 0); // Swipe left
+                }
+            } else {
+                // Vertical swipe
+                if (deltaY > 0) {
+                    this.hardDrop(); // Swipe down
+                } else {
+                    this.movePiece(0, -1); // Swipe up
+                }
+            }
+        } else if (deltaTime <= this.touch.maxTapTime) {
+            // Quick tap - rotate piece
+            this.rotatePiece();
+        }
+        
+        this.touch.isDown = false;
     }
     
     handleKeyPress(e) {
