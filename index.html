@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upside Down Tetris</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <h1>UPSIDE DOWN TETRIS</h1>
+            <div class="score-display">
+                <div class="score">Score: <span id="score">0</span></div>
+                <div class="level">Level: <span id="level">1</span></div>
+                <div class="lines">Lines: <span id="lines">0</span></div>
+            </div>
+        </div>
+        
+        <div class="game-area">
+            <canvas id="gameCanvas" width="320" height="640"></canvas>
+            <div class="side-panel">
+                <div class="next-piece">
+                    <h3>NEXT</h3>
+                    <canvas id="nextCanvas" width="120" height="120"></canvas>
+                </div>
+                <div class="controls">
+                    <h3>CONTROLS</h3>
+                    <div class="control-info">
+                        <div>← → Move</div>
+                        <div>↑ Rotate</div>
+                        <div>↓ Soft Drop</div>
+                        <div>Space Hard Drop</div>
+                    </div>
+                    <div class="debug-controls">
+                        <h4>DEBUG <span id="debugStatus" class="debug-status">OFF</span></h4>
+                        <div class="control-info">
+                            <div>D Toggle Debug</div>
+                            <div>F Fill Test Rows</div>
+                            <div>R Random Pattern</div>
+                            <div>C Clear Lines</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="game-controls">
+            <button id="startBtn">START</button>
+            <button id="pauseBtn">PAUSE</button>
+            <button id="resetBtn">RESET</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
